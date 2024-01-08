@@ -6,7 +6,7 @@ import os from 'os';
 import cookieParser from 'cookie-parser';
 import l from './logger';
 
-import errorHandler from '../api/middlewares/error.handler';
+import errorHandler from '../todo-api/middlewares/error.handler';
 import * as OpenApiValidator from 'express-openapi-validator';
 
 const app = express();

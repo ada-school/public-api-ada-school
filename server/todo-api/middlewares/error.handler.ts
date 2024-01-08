@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-
+interface CustomError extends Error {
+  status?: number;
+  errors?: { message: string }[];
+}
 export default function errorHandler(
-  err: any,
+  err: CustomError,
   _req: Request,
   res: Response,
   _next: NextFunction
