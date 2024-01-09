@@ -1,14 +1,12 @@
 import './env';
 import { connect } from 'mongoose';
 import l from './logger';
-
-const dbName = process.env.DbName || 'api-ada';
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
+import { DB_NAME, MONGO_URI } from '../config';
 
 export default async function () {
   try {
     await connect(MONGO_URI, {
-      dbName,
+      dbName: DB_NAME,
     });
     l.info('Conexión a MongoDb exitosa');
   } catch (error) {

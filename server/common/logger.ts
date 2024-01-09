@@ -1,8 +1,8 @@
-import './env'
 import pino from 'pino';
+import { APP_ID, LOG_LEVEL } from '../config';
 const l = pino({
-  name: process.env.APP_ID,
-  level: process.env.LOG_LEVEL,
+  name: APP_ID,
+  level: LOG_LEVEL,
 });
 
 export default l;

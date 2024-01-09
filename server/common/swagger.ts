@@ -2,7 +2,7 @@ import path from 'path';
 import middleware from 'swagger-express-middleware';
 import { Application } from 'express';
 import errorHandler from '../todo-api/middlewares/error.handler';
-
+import { SWAGGER_API_SPEC, SESSION_SECRET, REQUEST_LIMIT } from '../config';
 export default function (
   app: Application,
   routes: (app: Application) => void
@@ -23,7 +23,7 @@ export default function (
         app.use(middleware.metadata());
         app.use(
           middleware.files(app, {
-            apiPath: process.env.SWAGGER_API_SPEC,
+            apiPath: SWAGGER_API_SPEC,
           })
         );
 
@@ -31,11 +31,11 @@ export default function (
           middleware.parseRequest({
             // Configure the cookie parser to use secure cookies
             cookie: {
-              secret: process.env.SESSION_SECRET,
+              secret: SESSION_SECRET,
             },
             // Don't allow JSON content over 100kb (default is 1mb)
             json: {
-              limit: process.env.REQUEST_LIMIT,
+              limit: REQUEST_LIMIT,
             },
           })
         );
