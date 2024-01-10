@@ -15,10 +15,6 @@ export default function (
         if (err) {
           return reject(err);
         }
-        // Enable Express' case-sensitive and strict options
-        // (so "/entities", "/Entities", and "/Entities/" are all different)
-        app.enable('case sensitive routing');
-        app.enable('strict routing');
 
         app.use(middleware.metadata());
         app.use(
