@@ -5,6 +5,6 @@ export interface Todo {
   isCompleted: boolean;
   description: string;
   priority: number;
-  tittle: string;
+  title: string;
   dueDate: Date;
 }
