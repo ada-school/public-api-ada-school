@@ -10,6 +10,6 @@ const ToDoSchema = new Schema<ToDo>({
   dueDate: { type: Date },
 });
 
-const ToDoModel = model('ToDo', ToDoSchema);
+const ToDoModel = model('todo', ToDoSchema);
 
 export default ToDoModel;
