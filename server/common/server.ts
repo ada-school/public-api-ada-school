@@ -5,15 +5,9 @@ import http from 'http';
 import os from 'os';
 import cookieParser from 'cookie-parser';
 import l from './logger';
-import {
-  REQUEST_LIMIT,
-  OPENAPI_SPEC,
-  SESSION_SECRET,
-  OPENAPI_ENABLE_RESPONSE_VALIDATION,
-  NODE_ENV, 
-} from '../config';
+import { REQUEST_LIMIT, SESSION_SECRET, NODE_ENV } from '../config';
 import errorHandler from '../todo-api/middlewares/error.handler';
-import * as OpenApiValidator from 'express-openapi-validator';
+// import * as OpenApiValidator from 'express-openapi-validator';
 
 const app = express();
 
@@ -21,30 +15,30 @@ export default class ExpressServer {
   private routes: (app: Application) => void;
   constructor() {
     const root = path.normalize(__dirname + '/../..');
-    app.use(bodyParser.json({ limit: REQUEST_LIMIT || '100kb' }));
+    app.use(bodyParser.json({ limit: REQUEST_LIMIT }));
     app.use(
       bodyParser.urlencoded({
         extended: true,
-        limit: REQUEST_LIMIT || '100kb',
+        limit: REQUEST_LIMIT,
       })
     );
-    app.use(bodyParser.text({ limit: REQUEST_LIMIT || '100kb' }));
+    app.use(bodyParser.text({ limit: REQUEST_LIMIT }));
     app.use(cookieParser(SESSION_SECRET));
     app.use(express.static(`${root}/public`));
 
-    const apiSpec = path.join(__dirname, 'api.yml');
-    const validateResponses = !!(
-      OPENAPI_ENABLE_RESPONSE_VALIDATION &&
-      OPENAPI_ENABLE_RESPONSE_VALIDATION.toLowerCase() === 'true'
-    );
-    app.use(OPENAPI_SPEC || '/spec', express.static(apiSpec));
-    app.use(
-      OpenApiValidator.middleware({
-        apiSpec,
-        validateResponses,
-        ignorePaths: /.*\/spec(\/|$)/,
-      })
-    );
+    // const apiSpec = path.join(__dirname, 'api.yml');
+    // const validateResponses = !!(
+    //   OPENAPI_ENABLE_RESPONSE_VALIDATION &&
+    //   OPENAPI_ENABLE_RESPONSE_VALIDATION.toLowerCase() === 'true'
+    // );
+    // app.use(OPENAPI_SPEC || '/spec', express.static(apiSpec));
+    // app.use(
+    //   OpenApiValidator.middleware({
+    //     apiSpec,
+    //     validateResponses,
+    //     ignorePaths: /.*\/spec(\/|$)/,
+    //   })
+    // );
   }
 
   router(routes: (app: Application) => void): ExpressServer {
