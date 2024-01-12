@@ -7,4 +7,5 @@ export interface ToDoModel {
   priority?: number;
   title: string;
   dueDate?: Date;
+
 }
