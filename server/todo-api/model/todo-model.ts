@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-export interface ToDo {
+export interface ToDoModel {
   createdBy: Schema.Types.ObjectId;
   isCompleted: boolean;
   description?: string;
