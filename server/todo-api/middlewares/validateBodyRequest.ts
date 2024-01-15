@@ -50,7 +50,7 @@ const validateBodyRequest = (
 
   if (!(typeof title === 'string' && title.length >= 3 && title.length <= 15)) {
     errors.push(
-      'description by must by a string value and with a length greater than 3 or less than or equal to 15'
+      'title by must by a string value and with a length greater than 3 or less than or equal to 15'
     );
   }
 
