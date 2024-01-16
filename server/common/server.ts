@@ -12,6 +12,7 @@ import { REQUEST_LIMIT, SESSION_SECRET, NODE_ENV } from '../config';
 const app = express();
 
 export default class ExpressServer {
+  private server?: http.Server;
   private routes: (app: Application) => void;
   constructor() {
     const root = path.normalize(__dirname + '/../..');
@@ -47,14 +48,21 @@ export default class ExpressServer {
     return this;
   }
 
-  listen(port: number): Application {
+  listen(port: number): void {
     const welcome = (p: number) => (): void =>
       l.info(
         `up and running in ${NODE_ENV} @: ${os.hostname()} on port: ${p}}`
       );
 
     http.createServer(app).listen(port, welcome(port));
-
+  }
+  getApp(): Application {
     return app;
+  }
+
+  close(): void {
+    if (this.server) {
+      this.server.close();
+    }
   }
 }

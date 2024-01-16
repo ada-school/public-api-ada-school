@@ -10,7 +10,7 @@ export class Controller {
     try {
       const newToDo = new ToDoDBModel(req.todo);
       await newToDo.save();
-      res.status(201).json(newToDo);
+      res.sendStatus(201);
     } catch (error) {
       l.error(error);
       errorHandler(error, req, res, next);

@@ -20,7 +20,7 @@ const validateBodyRequest = (
     req.body as ToDoModel;
 
   if (!(createdBy && Types.ObjectId.isValid(createdBy.toString()))) {
-    errors.push('created by must by a objectid value');
+    errors.push('created by must by a objectId value');
   }
   if (isCompleted && typeof isCompleted !== 'boolean') {
     errors.push('isCompleted by must by a boolean value');
@@ -60,8 +60,8 @@ const validateBodyRequest = (
   if (errors.length) {
     const bodyErrors: CustomError = {
       status: 400,
-      name: '',
-      message: '',
+      name: 'information in the body wrong',
+      message: 'The values provided through the request body are not correct',
       errors: errors.map((message) => ({ message })),
     };
     errorHandler(bodyErrors, req, _res, next);
