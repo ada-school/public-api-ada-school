@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "My cool TypeScript app",
   "main": "dist/index.js",
-  "module": "ESM",
+  "type": "module",
   "scripts": {
     "start": "node dist/index.ts",
     "compile": "ts-node build.ts && tsc",
