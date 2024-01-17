@@ -9,12 +9,13 @@ import { REQUEST_LIMIT, SESSION_SECRET, NODE_ENV } from '../config';
 // import errorHandler from '../todo-api/middlewares/error.handler';
 // import * as OpenApiValidator from 'express-openapi-validator';
 
-const app = express();
-
 export default class ExpressServer {
   private server?: http.Server;
   private routes: (app: Application) => void;
+  private app: Application;
   constructor() {
+    const app = express();
+    this.app = app;
     const root = path.normalize(__dirname + '/../..');
     app.use(bodyParser.json({ limit: REQUEST_LIMIT }));
     app.use(
@@ -43,7 +44,7 @@ export default class ExpressServer {
   }
 
   router(routes: (app: Application) => void): ExpressServer {
-    routes(app);
+    routes(this.app);
     // app.use(errorHandler);
     return this;
   }
@@ -54,15 +55,25 @@ export default class ExpressServer {
         `up and running in ${NODE_ENV} @: ${os.hostname()} on port: ${p}}`
       );
 
-    http.createServer(app).listen(port, welcome(port));
+    http.createServer(this.app).listen(port, welcome(port));
   }
   getApp(): Application {
-    return app;
+    return this.app;
   }
 
-  close(): void {
-    if (this.server) {
-      this.server.close();
-    }
+  close(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.server) {
+        this.server.close((err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      } else {
+        resolve();
+      }
+    });
   }
 }
