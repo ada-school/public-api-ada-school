@@ -9,7 +9,7 @@ const config: Config = {
   testEnvironment: 'node',
   // silent: true,
   verbose: true,
-  detectOpenHandles: true
-}
+  detectOpenHandles: true,
+};
 
 export default config;
