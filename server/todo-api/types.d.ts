@@ -1,4 +1,4 @@
-export interface CustomError extends Error {
+export interface HTTPError extends Error {
   status?: number;
   errors?: { message: string }[];
 }
