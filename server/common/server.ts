@@ -6,7 +6,7 @@ import os from 'os';
 import cookieParser from 'cookie-parser';
 import l from './logger';
 import { REQUEST_LIMIT, SESSION_SECRET, NODE_ENV } from '../config';
-// import errorHandler from '../todo-api/middlewares/error.handler';
+import errorHandler from '../todo-api/middlewares/error.handler';
 // import * as OpenApiValidator from 'express-openapi-validator';
 
 export default class ExpressServer {
@@ -45,7 +45,7 @@ export default class ExpressServer {
 
   router(routes: (app: Application) => void): ExpressServer {
     routes(this.app);
-    // app.use(errorHandler);
+    this.app.use(errorHandler);
     return this;
   }
 
