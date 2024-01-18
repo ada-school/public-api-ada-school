@@ -2,6 +2,7 @@ import { model, Schema } from 'mongoose';
 import { ToDoModel } from '../model/todo-model';
 
 const ToDoSchema = new Schema<ToDoModel>({
+
   createdBy: { type: Schema.ObjectId },
   isCompleted: { type: Boolean, default: false },
   description: { type: String },
