@@ -30,6 +30,7 @@ describe('todo api server works', () => {
   beforeAll(async () => {
     await conectionDbMemory();
   });
+
   afterAll(async () => {
     await server.close();
     await cleanData();
@@ -39,6 +40,7 @@ describe('todo api server works', () => {
     const response = await request(app).get('/');
     expect(response.statusCode).toBe(200);
   });
+
   it('POST method works correctly', async () => {
     const response = await request(app).post('/api/v1/todos').send(dataTest);
     expect(response.statusCode).toBe(201);
