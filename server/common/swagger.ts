@@ -1,7 +1,7 @@
 import path from 'path';
 import middleware from 'swagger-express-middleware';
 import { Application } from 'express';
-import errorHandler from '../todo-api/middlewares/error.handler';
+import errorHandler from './error.handler';
 import { SWAGGER_API_SPEC, SESSION_SECRET, REQUEST_LIMIT } from '../config';
 export default function (
   app: Application,

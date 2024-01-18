@@ -2,11 +2,10 @@ import { Response, NextFunction, Request } from 'express';
 import { ToDoDBModel } from '../schemas/to-do-schema';
 import { ToDoModel } from '../model/todo-model';
 import { Types } from 'mongoose';
-import { CustomError } from '../types';
+import { HTTPError } from '../types';
 import validator from 'validator';
 
 export class Controller {
-  //metodo de validación y creación de una nueva todo
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     const errors: string[] = [];
 
@@ -45,7 +44,7 @@ export class Controller {
     }
 
     if (errors.length) {
-      const bodyErrors: CustomError = {
+      const bodyErrors: HTTPError = {
         status: 400,
         name: 'information in the body wrong',
         message: 'The values provided through the request body are not correct',

@@ -9,7 +9,6 @@ import {
 
 const server = new Server().router(routes);
 const app = server.getApp();
-//iniciar conexión
 
 const dataTest = {
   createdBy: '65a5d5d212a10d2a9879bc73',
