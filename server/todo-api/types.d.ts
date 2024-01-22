@@ -1,5 +1,4 @@
 export interface HTTPError extends Error {
   status?: number;
-  errors?: { message: string }[];
+  errors?: Array<{ message: string }>;
 }
-

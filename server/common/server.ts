@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import os from 'os';
 import cookieParser from 'cookie-parser';
-import l from './logger';
+import log from './logger';
 import { REQUEST_LIMIT, SESSION_SECRET, NODE_ENV } from '../config';
 import errorHandler from './error.handler';
 // import * as OpenApiValidator from 'express-openapi-validator';
@@ -51,7 +51,7 @@ export default class ExpressServer {
 
   listen(port: number): void {
     const welcome = (p: number) => (): void =>
-      l.info(
+      log.info(
         `up and running in ${NODE_ENV} @: ${os.hostname()} on port: ${p}}`
       );
 

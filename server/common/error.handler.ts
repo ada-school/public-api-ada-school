@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { HTTPError } from '../todo-api/types';
-import l from './logger';
+import log from './logger';
 
 export default function errorHandler(
   err: HTTPError,
@@ -10,5 +10,5 @@ export default function errorHandler(
 ): void {
   const errors = err.errors || [{ message: err.message }];
   res.status(err.status || 500).json({ errors });
-  l.error({ errors });
+  log.error({ errors });
 }

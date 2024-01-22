@@ -46,7 +46,7 @@ export class Controller {
     if (errors.length) {
       const bodyErrors: HTTPError = {
         status: 400,
-        name: 'information in the body wrong',
+        name: 'Bad request',
         message: 'The values provided through the request body are not correct',
         errors: errors.map((message) => ({ message })),
       };
