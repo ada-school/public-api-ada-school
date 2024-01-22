@@ -3,8 +3,8 @@ import Server from '../server/common/server';
 import routes from '../server/routes';
 import {
   cleanData,
-  closeConectionDbMemory,
-  conectionDbMemory,
+connectMemoryDB,
+closeMemoryDBConection
 } from './helper/mongoDbMemoryTestHelper';
 
 const server = new Server().router(routes);
@@ -27,13 +27,13 @@ const wrongDataTest = {
 
 describe('todo api server works', () => {
   beforeAll(async () => {
-    await conectionDbMemory();
+    await connectMemoryDB();
   });
 
   afterAll(async () => {
     await server.close();
     await cleanData();
-    await closeConectionDbMemory();
+    await closeMemoryDBConection();
   });
   it('server run and listen correctly', async () => {
     const response = await request(app).get('/');
