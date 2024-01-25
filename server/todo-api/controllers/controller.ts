@@ -4,40 +4,38 @@ import { Types } from 'mongoose';
 import { HTTPError } from '../types';
 import validator from 'validator';
 
+const isObjectId = (
+  createdBy: string | Types.ObjectId
+): createdBy is Types.ObjectId => {
+  return Types.ObjectId.isValid(createdBy);
+};
+
+const isBoolean = (isCompleted: unknown): isCompleted is boolean => {
+  return typeof isCompleted === 'boolean';
+};
+
+const isString = (value: unknown): value is string => {
+  return typeof value === 'string';
+};
+
+const isNumber = (value: unknown): value is number => {
+  return typeof value === 'number';
+};
+
+const isDate = (value: unknown): value is Date => {
+  return value instanceof Date && !isNaN(value.getTime());
+};
+
+const haveMinRequiredValues = (valuesInBodyRequest: Array<string>): boolean => {
+  return (
+    valuesInBodyRequest.includes('title') &&
+    valuesInBodyRequest.includes('isCompleted') &&
+    valuesInBodyRequest.includes('createdBy')
+  );
+};
+
 export class Controller {
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const isObjectId = (
-      createdBy: string | Types.ObjectId
-    ): createdBy is Types.ObjectId => {
-      return Types.ObjectId.isValid(createdBy);
-    };
-
-    const isBoolean = (isCompleted: unknown): isCompleted is boolean => {
-      return typeof isCompleted === 'boolean';
-    };
-
-    const isString = (value: unknown): value is string => {
-      return typeof value === 'string';
-    };
-
-    const isNumber = (value: unknown): value is number => {
-      return typeof value === 'number';
-    };
-
-    const isDate = (value: unknown): value is Date => {
-      return value instanceof Date && !isNaN(value.getTime());
-    };
-
-    const haveMinRequiredValues = (
-      valuesInBodyRequest: Array<string>
-    ): boolean => {
-      return (
-        valuesInBodyRequest.includes('title') &&
-        valuesInBodyRequest.includes('isCompleted') &&
-        valuesInBodyRequest.includes('createdBy')
-      );
-    };
-
     let bodyErrors: HTTPError = {
       status: 400,
       name: 'Bad request',
