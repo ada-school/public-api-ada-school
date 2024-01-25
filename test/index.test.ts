@@ -23,6 +23,7 @@ const wrongValuesDataTest = {
   description: '--',
   priority: 12,
   title: '--',
+  isCompleted: {},
 };
 
 const wrongKeysDataTest = {
@@ -33,6 +34,7 @@ const wrongKeysDataTest = {
 
 const arrayErrors = [
   { message: 'created by must by a objectId value' },
+  { message: 'isCompleted by must by a boolean value' },
   {
     message:
       'title by must by a string value and with a length greater than 3 or less than or equal to 15',
@@ -73,10 +75,10 @@ describe('todo api server works', () => {
       .send(wrongValuesDataTest);
     expect(response.statusCode).toBe(400);
     const { errors } = JSON.parse(response.text);
-    expect(errors).toHaveLength(4);
+    expect(errors).toHaveLength(5);
     expect(errors).toEqual(arrayErrors);
   });
-  it('POST method only accepts correct information', async () => {
+  it('POST method only accepts the minimum required values', async () => {
     const response = await request(app)
       .post('/api/v1/todos')
       .send(wrongKeysDataTest);
