@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import examplesRouter from './todo-api/controllers/examples/router';
+import toDoRouter from './todo-api/controllers/router';
 export default function routes(app: Application): void {
-  app.use('/api/v1/examples', examplesRouter);
+  app.use('/api/v1/todos', toDoRouter);
 }

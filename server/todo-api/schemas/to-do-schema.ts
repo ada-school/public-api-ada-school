@@ -1,7 +1,8 @@
 import { model, Schema } from 'mongoose';
-import { ToDo } from '../model/todo-model';
+import { ToDoModel } from '../model/todo-model';
 
-const ToDoSchema = new Schema<ToDo>({
+const ToDoSchema = new Schema<ToDoModel>({
+
   createdBy: { type: Schema.ObjectId },
   isCompleted: { type: Boolean, default: false },
   description: { type: String },
