@@ -122,29 +122,29 @@ export class Controller {
     }
   }
 
-
   async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { createdBy } = req.body;
 
-    if (isObjectId(createdBy)) {
-      const toDosToTheEstudent = await ToDoDBModel.find({
-        createdBy: createdBy,
-      });
-
-      toDosToTheEstudent.length
-        ? res.status(200).json({ toDosToTheEstudent })
-        : res.status(200).json({
-            message: `There is no student task with ID '${createdBy}'`,
-          });
-    } else {
+    if (!isObjectId(createdBy)) {
       const error: HTTPError = {
         status: 400,
         name: 'Bad request',
         message: `createdBy must by a ObjectId value but recived a ${typeof createdBy}`,
       };
       next(error);
+    } else {
+      const toDosToTheEstudent = await ToDoDBModel.find({
+        createdBy: createdBy,
+      });
+
+      if (toDosToTheEstudent.length) {
+        res.status(200).json({ toDosToTheEstudent });
+      } else {
+        res.status(200).json({
+          message: `There is no student task with ID '${createdBy}'`,
+        });
+      }
     }
   }
-
 }
 export default new Controller();

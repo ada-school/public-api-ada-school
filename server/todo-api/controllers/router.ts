@@ -6,5 +6,4 @@ export default express
   .post('/', controller.create)
   .get('/', controller.getAll);
 
-export default express.Router().post('/', controller.create);
 

@@ -12,73 +12,34 @@ import {
   arrayErrors,
   cretedByWithIdWithExistingData,
   cretedByWithIdWithNotExistingData,
-  dataTest,
+  testData,
   wrongKeysDataTest,
   wrongValuesDataTest,
-} from './helper/dataHelper';
+} from './helper/testData';
 import { ToDoDBModel } from '../server/todo-api/schemas/to-do-schema';
-
 
 const server = new Server().router(routes);
 const app = server.getApp();
 
+beforeAll(async () => {
+  await connectMemoryDB();
+});
 
-const dataTest = {
-  createdBy: '65a5d5d212a10d2a9879bc73',
-  isCompleted: true,
-  description: 'test description',
-  priority: 1,
-  title: 'tests',
-  dueDate: '2024-01-18T16:17:19.037Z',
-};
-const wrongValuesDataTest = {
-  createdBy: '65a5d5d212a10d2a9879bc7',
-  description: '--',
-  priority: 12,
-  title: '--',
-  isCompleted: {},
-};
-
-const wrongKeysDataTest = {
-  test: 'test',
-  age: 21,
-  isFinished: true,
-};
-
-const arrayErrors = [
-  { message: 'created by must by a objectId value' },
-  { message: 'isCompleted by must by a boolean value' },
-  {
-    message:
-      'title by must by a string value and with a length greater than 3 or less than or equal to 15',
-  },
-  {
-    message:
-      'description by must by a string value and with a length greater than 3 or less than or equal to 250',
-  },
-  {
-    message:
-      'priority by must by a number value less than 0 or equal to 10 or greater than or equal to 0',
-  },
-];
-
-describe('todo api server works', () => {
-  beforeAll(async () => {
-    await connectMemoryDB();
-  });
-
-  afterAll(async () => {
-    await server.close();
-    await cleanData();
-    await closeMemoryDBConection();
-  });
+afterAll(async () => {
+  await server.close();
+  await cleanData();
+  await closeMemoryDBConection();
+});
+describe('server run and listen correctly', () => {
   it('server run and listen correctly', async () => {
     const response = await request(app).get('/');
     expect(response.statusCode).toBe(200);
   });
+});
 
+describe('POST method works correctly', () => {
   it('POST method works correctly', async () => {
-    const response = await request(app).post('/api/v1/todos').send(dataTest);
+    const response = await request(app).post('/api/v1/todos').send(testData);
     expect(response.statusCode).toBe(201);
   });
 
@@ -101,7 +62,9 @@ describe('todo api server works', () => {
       'None of the properties provided in the body of the application are valid'
     );
   });
+});
 
+describe('GET method works correctly', () => {
   it('GET method works correctly', async () => {
     await ToDoDBModel.insertMany(ArrayTodosTest);
     const response = await request(app)
@@ -132,5 +95,5 @@ describe('todo api server works', () => {
       'createdBy must by a ObjectId value but recived a undefined'
     );
   });
-
 });
+
