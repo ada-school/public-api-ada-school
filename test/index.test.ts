@@ -6,6 +6,7 @@ import {
   connectMemoryDB,
   closeMemoryDBConection,
 } from './helper/mongoDbMemoryTestHelper';
+
 import {
   ArrayTodosTest,
   arrayErrors,
@@ -17,8 +18,49 @@ import {
 } from './helper/dataHelper';
 import { ToDoDBModel } from '../server/todo-api/schemas/to-do-schema';
 
+
 const server = new Server().router(routes);
 const app = server.getApp();
+
+
+const dataTest = {
+  createdBy: '65a5d5d212a10d2a9879bc73',
+  isCompleted: true,
+  description: 'test description',
+  priority: 1,
+  title: 'tests',
+  dueDate: '2024-01-18T16:17:19.037Z',
+};
+const wrongValuesDataTest = {
+  createdBy: '65a5d5d212a10d2a9879bc7',
+  description: '--',
+  priority: 12,
+  title: '--',
+  isCompleted: {},
+};
+
+const wrongKeysDataTest = {
+  test: 'test',
+  age: 21,
+  isFinished: true,
+};
+
+const arrayErrors = [
+  { message: 'created by must by a objectId value' },
+  { message: 'isCompleted by must by a boolean value' },
+  {
+    message:
+      'title by must by a string value and with a length greater than 3 or less than or equal to 15',
+  },
+  {
+    message:
+      'description by must by a string value and with a length greater than 3 or less than or equal to 250',
+  },
+  {
+    message:
+      'priority by must by a number value less than 0 or equal to 10 or greater than or equal to 0',
+  },
+];
 
 describe('todo api server works', () => {
   beforeAll(async () => {
@@ -90,4 +132,5 @@ describe('todo api server works', () => {
       'createdBy must by a ObjectId value but recived a undefined'
     );
   });
+
 });

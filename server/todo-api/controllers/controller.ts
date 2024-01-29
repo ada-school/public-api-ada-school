@@ -122,6 +122,7 @@ export class Controller {
     }
   }
 
+
   async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { createdBy } = req.body;
 
@@ -144,5 +145,6 @@ export class Controller {
       next(error);
     }
   }
+
 }
 export default new Controller();
