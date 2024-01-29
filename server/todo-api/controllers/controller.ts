@@ -139,7 +139,7 @@ export class Controller {
     });
 
     if (studentTodos.length) {
-      res.status(200).json({ studentTodos });
+      res.status(200).json({ listTodos: studentTodos });
     } else {
       res.status(200).json({
         message: `There is no student task with ID '${createdBy}'`,

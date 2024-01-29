@@ -71,10 +71,10 @@ describe('todo API works correctly', () => {
         .get('/api/v1/todos')
         .send(cretedByWithIdWithExistingData);
 
-      const { toDosToTheEstudent } = response.body;
+      const { listTodos } = response.body;
       expect(response.statusCode).toBe(200);
-      expect(toDosToTheEstudent).toHaveLength(ArrayTodosTest.length);
-      expect(toDosToTheEstudent[1].title).toEqual(ArrayTodosTest[1].title);
+      expect(listTodos).toHaveLength(ArrayTodosTest.length);
+      expect(listTodos[1].title).toEqual(ArrayTodosTest[1].title);
     });
 
     it('GET method answer correctly if there is no student to dos', async () => {
