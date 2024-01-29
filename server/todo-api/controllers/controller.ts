@@ -134,12 +134,12 @@ export class Controller {
       return next(error);
     }
 
-    const toDosToTheEstudent = await ToDoDBModel.find({
+    const studentTodos = await ToDoDBModel.find({
       createdBy: createdBy,
     });
 
-    if (toDosToTheEstudent.length) {
-      res.status(200).json({ toDosToTheEstudent });
+    if (studentTodos.length) {
+      res.status(200).json({ studentTodos });
     } else {
       res.status(200).json({
         message: `There is no student task with ID '${createdBy}'`,
