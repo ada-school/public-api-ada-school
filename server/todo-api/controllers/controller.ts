@@ -131,19 +131,19 @@ export class Controller {
         name: 'Bad request',
         message: `createdBy must by a ObjectId value but recived a ${typeof createdBy}`,
       };
-      next(error);
-    } else {
-      const toDosToTheEstudent = await ToDoDBModel.find({
-        createdBy: createdBy,
-      });
+      return next(error);
+    }
 
-      if (toDosToTheEstudent.length) {
-        res.status(200).json({ toDosToTheEstudent });
-      } else {
-        res.status(200).json({
-          message: `There is no student task with ID '${createdBy}'`,
-        });
-      }
+    const toDosToTheEstudent = await ToDoDBModel.find({
+      createdBy: createdBy,
+    });
+
+    if (toDosToTheEstudent.length) {
+      res.status(200).json({ toDosToTheEstudent });
+    } else {
+      res.status(200).json({
+        message: `There is no student task with ID '${createdBy}'`,
+      });
     }
   }
 }
