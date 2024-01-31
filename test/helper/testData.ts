@@ -21,7 +21,6 @@ export const wrongKeysDataTest = {
 };
 
 export const arrayErrors = [
-  { message: 'created by must by a objectId value' },
   { message: 'isCompleted by must by a boolean value' },
   {
     message:
@@ -39,36 +38,39 @@ export const arrayErrors = [
 
 export const ArrayTodosTest = [
   {
-    createdBy: '65b5bfc5615b185c0bc05648',
+    createdBy: '5fcd3ac12b22eab4d301d819',
     isCompleted: false,
     description: 'Complete unit tests for new feature',
     priority: 1,
     title: 'Unit Tests',
-    dueDate: "2024-02-20T00:00:00.000Z",
+    dueDate: '2024-02-20T00:00:00.000Z',
   },
   {
-    createdBy: '65b5bfc5615b185c0bc05648',
+    createdBy: '5fcd3ac12b22eab4d301d819',
     isCompleted: true,
     description: 'Review code for latest commit',
     priority: 2,
     title: 'Code Review',
-    dueDate: "2024-02-18T00:00:00.000Z",
+    dueDate: '2024-02-18T00:00:00.000Z',
   },
   {
-    createdBy: '65b5bfc5615b185c0bc05648',
+    createdBy: '5fcd3ac12b22eab4d301d819',
     isCompleted: false,
     title: 'Write documentation',
     priority: 3,
-    dueDate:  "2024-02-15T00:00:00.000Z",
+    dueDate: '2024-02-15T00:00:00.000Z',
   },
 ];
 
 export const cretedByWithIdWithExistingData = {
-  createdBy: '65b5bfc5615b185c0bc05648',
+  createdBy: '',
 };
 
-export const cretedByWithIdWithNotExistingData = {
-  createdBy: '65a56547b8772ebf5f3c48d8',
-};
+export const testTokenUserWithNotData =
+  'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWJhZDM2MGQxZTEyZjRmZDMyYWNmODYiLCJuYW1lIjoiRXJpayBIZXJuYW5kZXoiLCJtZXRhIjp7InIiOlsiU1RVREVOVCIsIk1FTlRPUiIsIk1BTkFHRVIiXSwic2NpZCI6IjY1YmFjMTQyYjhlZjRkM2RlYTEwODYzNCJ9LCJpYXQiOjE3MDY3MDQxNDR9.njV_OqqALAa99GrR2CZxA6ZVLA_p5tGcgKYpTH4Mjkk';
 
+export const testTokenWithWrongID =
+  'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWJhZDM2MGQxZTEyZjRmZDMyYWNmODYiLCJuYW1lIjoiRXJpayBIZXJuYW5kZXoiLCJtZXRhIjp7InIiOlsiU1RVREVOVCIsIk1FTlRPUiIsIk1BTkFHRVIiXSwic2NpZCI6IjY1YmFjMTQyYjhlZjRkM2RlYTEwODYzIn0sImlhdCI6MTcwNjcwNDE0NH0.IdbTj2NyHDWPzl3UdY5QabS8C1N0hfibhsfLKzsu03s';
 
+export const testToken =
+  'baerer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDM0MWI2ODMzOWU2YTc1YzczOGVmMDEiLCJuYW1lIjoiRXJpayBIZXJuYW5kZXoiLCJtZXRhIjp7InIiOlsiU1RVREVOVCIsIk1FTlRPUiIsIk1BTkFHRVIiXSwic2NpZCI6IjVmY2QzYWMxMmIyMmVhYjRkMzAxZDgxOSJ9LCJpYXQiOjE3MDY3MDQxNDR9.mVyJgyFJQbR9DYmPe-Tzy4kvlV36JkTwrtaI5n6MNc8';

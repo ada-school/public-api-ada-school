@@ -6,13 +6,14 @@ import {
   connectMemoryDB,
   closeMemoryDBConection,
 } from './helper/mongoDbMemoryTestHelper';
-
+//los test que validan el id son ahora invalidos?
 import {
   ArrayTodosTest,
   arrayErrors,
-  cretedByWithIdWithExistingData,
-  cretedByWithIdWithNotExistingData,
   testData,
+  testToken,
+  testTokenUserWithNotData,
+  testTokenWithWrongID,
   wrongKeysDataTest,
   wrongValuesDataTest,
 } from './helper/testData';
@@ -30,6 +31,10 @@ describe('todo API works correctly', () => {
     await cleanData();
     await closeMemoryDBConection();
   });
+
+  beforeEach(async () => {
+    await cleanData();
+  });
   describe('server run and listen correctly', () => {
     it('server run and listen correctly', async () => {
       const response = await request(app).get('/');
@@ -39,23 +44,28 @@ describe('todo API works correctly', () => {
 
   describe('POST method works correctly', () => {
     it('POST method works correctly', async () => {
-      const response = await request(app).post('/api/v1/todos').send(testData);
+      const response = await request(app)
+        .post('/api/v1/todos')
+        .send(testData)
+        .set('Authorization', testToken);
       expect(response.statusCode).toBe(201);
     });
 
     it('POST method only accepts correct values', async () => {
       const response = await request(app)
         .post('/api/v1/todos')
-        .send(wrongValuesDataTest);
+        .send(wrongValuesDataTest)
+        .set('Authorization', testToken);
       expect(response.statusCode).toBe(400);
       const { errors } = JSON.parse(response.text);
-      expect(errors).toHaveLength(5);
+      expect(errors).toHaveLength(4);
       expect(errors).toEqual(arrayErrors);
     });
     it('POST method only accepts the minimum required values', async () => {
       const response = await request(app)
         .post('/api/v1/todos')
-        .send(wrongKeysDataTest);
+        .send(wrongKeysDataTest)
+        .set('Authorization', testToken);
       expect(response.statusCode).toBe(400);
       const { errors } = JSON.parse(response.text);
       expect(errors[0].message).toBe(
@@ -69,7 +79,7 @@ describe('todo API works correctly', () => {
       await ToDoDBModel.insertMany(ArrayTodosTest);
       const response = await request(app)
         .get('/api/v1/todos')
-        .send(cretedByWithIdWithExistingData);
+        .set('Authorization', testToken);
 
       const { listTodos } = response.body;
       expect(response.statusCode).toBe(200);
@@ -80,19 +90,21 @@ describe('todo API works correctly', () => {
     it('GET method answer correctly if there is no student to dos', async () => {
       const response = await request(app)
         .get('/api/v1/todos')
-        .send(cretedByWithIdWithNotExistingData);
+        .set('Authorization', testTokenUserWithNotData);
 
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe(
-        `There is no student task with ID '${cretedByWithIdWithNotExistingData.createdBy}'`
+        `There is no student task with ID '65bac142b8ef4d3dea108634'`
       );
     });
     it('GET method not receive a wrong id and response with a descriptive error', async () => {
-      const response = await request(app).get('/api/v1/todos');
+      const response = await request(app)
+        .get('/api/v1/todos')
+        .set('Authorization', testTokenWithWrongID);
 
       expect(response.statusCode).toBe(400);
       expect(response.body.errors[0].message).toBe(
-        'createdBy must by a ObjectId value but recived a undefined'
+        'createdBy must by a ObjectId value but recived a string'
       );
     });
   });
