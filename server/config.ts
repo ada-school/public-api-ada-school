@@ -12,3 +12,4 @@ export const PORT: string = process.env.PORT || '3000';
 export const NODE_ENV: string = 'development';
 export const MONGO_URI: string =
   process.env.MONGO_URI || 'mongodb://localhost:27017';
+export const SECRET_KEY = process.env.SECRET_KEY || 'secret_key';
