@@ -1,7 +1,7 @@
 import { Response, NextFunction, Request } from 'express';
 import { ToDoDBModel } from '../schemas/to-do-schema';
 import { Types } from 'mongoose';
-import { HTTPError } from '../types';
+import { HTTPError } from '../../HTTPError';
 import validator from 'validator';
 
 const isObjectId = (
@@ -46,9 +46,10 @@ export class Controller {
     if (haveMinRequiredValues(valuesInBodyRequest)) {
       const errors: Array<string> = [];
 
-      const { createdBy, isCompleted, description, priority, title, dueDate } =
-        req.body;
-      if (createdBy && !isObjectId(createdBy)) {
+      const { isCompleted, description, priority, title, dueDate } = req.body;
+      const { id } = res.locals.user;
+
+      if (id && !isObjectId(id)) {
         errors.push('created by must by a objectId value');
       }
       if (isCompleted && !isBoolean(isCompleted)) {
@@ -95,7 +96,7 @@ export class Controller {
       } else if (haveMinRequiredValues(valuesInBodyRequest)) {
         try {
           const newToDo = new ToDoDBModel({
-            createdBy,
+            createdBy: id,
             isCompleted,
             description,
             priority,
@@ -122,27 +123,31 @@ export class Controller {
     }
   }
 
-  async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { createdBy } = req.body;
+  async getAll(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const { id } = res.locals.user;
 
-    if (!isObjectId(createdBy)) {
+    if (!isObjectId(id)) {
       const error: HTTPError = {
         status: 400,
         name: 'Bad request',
-        message: `createdBy must by a ObjectId value but recived a ${typeof createdBy}`,
+        message: `createdBy must by a ObjectId value but recived a ${typeof id}`,
       };
       return next(error);
     }
 
     const studentTodos = await ToDoDBModel.find({
-      createdBy: createdBy,
+      createdBy: id,
     });
 
     if (studentTodos.length) {
       res.status(200).json({ listTodos: studentTodos });
     } else {
       res.status(200).json({
-        message: `There is no student task with ID '${createdBy}'`,
+        message: `There is no student task with ID '${id}'`,
       });
     }
   }

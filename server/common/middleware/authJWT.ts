@@ -1,40 +1,68 @@
-import { NextFunction, Response } from 'express';
-import { SECRET_KEY } from 'server/config';
+import { NextFunction, Response, Request } from 'express';
+import { SECRET_KEY } from '../../config';
 import jwt from 'jsonwebtoken';
-import { AuthenticatedRequest, JWTPayload } from 'server/todo-api/types';
+import { HTTPError } from '../../HTTPError';
+
+interface JWTPayload {
+  sub: string;
+  name: string;
+  meta: {
+    r: Array<string>;
+    scid: string;
+  };
+  iat: number;
+  exp: number;
+}
+
+let authError: HTTPError = {
+  name: 'Unauthorized',
+  status: 401,
+  message: '',
+};
+
 const existAuthorization = (
   authorization: string | undefined
 ): authorization is string => {
   return authorization !== undefined;
 };
-const authJWT = (
-  req: AuthenticatedRequest,
-  res: Response,
-  next: NextFunction
-): void => {
+const authJWT = (req: Request, res: Response, next: NextFunction): void => {
   const authorization = req.headers.authorization;
 
   if (!existAuthorization(authorization)) {
-    res
-      .status(401)
-      .json({ message: 'there is not authorization header provided' });
+    authError = {
+      ...authError,
+      message: 'there is not authorization header provided',
+    };
+    next(authError);
     return;
   }
 
   const token = authorization.split(' ')[1];
   if (!token) {
-    res.status(401).json({ message: 'No token is provided' });
+    authError = {
+      ...authError,
+      message: 'No token is provided',
+    };
+    next(authError);
     return;
   }
 
   jwt.verify(token, SECRET_KEY, (error, decoded) => {
     if (error) {
-      res.status(401).json({ message: error });
+      authError = {
+        ...authError,
+        message: error.message,
+      };
+      next(authError);
       return;
     }
 
     const decodedToken = decoded as JWTPayload;
-    req.createdBy = decodedToken.meta.scid;
+
+    const user = {
+      id: decodedToken.meta.scid,
+    };
+    res.locals.user = user;
     next();
   });
 };

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { HTTPError } from '../todo-api/types';
+import { HTTPError } from '../HTTPError';
 import log from './logger';
 
 export default function errorHandler(
