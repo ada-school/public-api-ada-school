@@ -21,12 +21,12 @@
     "strictPropertyInitialization": false,
     "alwaysStrict": true,
     "outDir": "dist",
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "types/express.d.ts"],
     "resolveJsonModule": true,
     "baseUrl": ".",
     // "allowImportingTsExtensions": true,
     // "emitDeclarationOnly": true
   },
-  "include": ["server/**/*.ts"],
+  "include": ["server/**/*.ts", "types/express.d.ts"],
   "exclude": ["node_modules"]
 }
