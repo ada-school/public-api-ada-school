@@ -6,7 +6,7 @@ import {
   connectMemoryDB,
   closeMemoryDBConection,
 } from './helper/mongoDbMemoryTestHelper';
-//los test que validan el id son ahora invalidos?
+
 import {
   arrayTodosTest,
   arrayErrors,
