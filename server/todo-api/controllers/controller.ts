@@ -134,7 +134,7 @@ export class Controller {
       const error: HTTPError = {
         status: 400,
         name: 'Bad request',
-        message: `createdBy must by a ObjectId value but recived a ${typeof id}`,
+        message: `createdBy must by a ObjectId value`,
       };
       return next(error);
     }
@@ -142,11 +142,10 @@ export class Controller {
     const studentTodos = await ToDoDBModel.find({
       createdBy: id,
     });
-
     if (studentTodos.length) {
       res.status(200).json({ listTodos: studentTodos });
     } else {
-      res.status(200).json({
+      res.status(404).json({
         message: `There is no student task with ID '${id}'`,
       });
     }
