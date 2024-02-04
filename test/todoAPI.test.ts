@@ -8,7 +8,7 @@ import {
 } from './helper/mongoDbMemoryTestHelper';
 //los test que validan el id son ahora invalidos?
 import {
-  ArrayTodosTest,
+  arrayTodosTest,
   arrayErrors,
   testData,
   testToken,
@@ -76,15 +76,15 @@ describe('todo API works correctly', () => {
 
   describe('GET method works correctly', () => {
     it('GET method works correctly', async () => {
-      await ToDoDBModel.insertMany(ArrayTodosTest);
+      await ToDoDBModel.insertMany(arrayTodosTest);
       const response = await request(app)
         .get('/api/v1/todos')
         .set('Authorization', testToken);
 
       const { listTodos } = response.body;
       expect(response.statusCode).toBe(200);
-      expect(listTodos).toHaveLength(ArrayTodosTest.length);
-      expect(listTodos[1].title).toEqual(ArrayTodosTest[1].title);
+      expect(listTodos).toHaveLength(arrayTodosTest.length);
+      expect(listTodos[1].title).toEqual(arrayTodosTest[1].title);
     });
 
     it('GET method answer correctly if there is no student to dos', async () => {
@@ -92,7 +92,7 @@ describe('todo API works correctly', () => {
         .get('/api/v1/todos')
         .set('Authorization', testTokenUserWithNotData);
 
-      expect(response.statusCode).toBe(200);
+      expect(response.statusCode).toBe(404);
       expect(response.body.message).toBe(
         `There is no student task with ID '65bac142b8ef4d3dea108634'`
       );
@@ -100,11 +100,11 @@ describe('todo API works correctly', () => {
     it('GET method not receive a wrong id and response with a descriptive error', async () => {
       const response = await request(app)
         .get('/api/v1/todos')
-        .set('Authorization', testTokenWithWrongID);
+        .set('Authorization', testTokenWithWrongID);  
 
       expect(response.statusCode).toBe(400);
       expect(response.body.errors[0].message).toBe(
-        'createdBy must by a ObjectId value but recived a string'
+        'createdBy must by a ObjectId value'
       );
     });
   });

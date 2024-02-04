@@ -36,7 +36,7 @@ export const arrayErrors = [
   },
 ];
 
-export const ArrayTodosTest = [
+export const arrayTodosTest = [
   {
     createdBy: '5fcd3ac12b22eab4d301d819',
     isCompleted: false,
