@@ -33,8 +33,8 @@ const authJWT = (req: Request, res: Response, next: NextFunction): void => {
       ...authError,
       message: 'there is not authorization header provided',
     };
-    next(authError);
-    return;
+
+    return next(authError);
   }
 
   const token = authorization.split(' ')[1];
@@ -43,8 +43,7 @@ const authJWT = (req: Request, res: Response, next: NextFunction): void => {
       ...authError,
       message: 'No token is provided',
     };
-    next(authError);
-    return;
+    return next(authError);
   }
 
   jwt.verify(token, SECRET_KEY, (error, decoded) => {
@@ -53,8 +52,8 @@ const authJWT = (req: Request, res: Response, next: NextFunction): void => {
         ...authError,
         message: error.message,
       };
-      next(authError);
-      return;
+
+      return next(authError);
     }
 
     const decodedToken = decoded as JWTPayload;
