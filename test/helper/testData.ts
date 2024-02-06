@@ -62,10 +62,6 @@ export const arrayTodosTest = [
   },
 ];
 
-export const cretedByWithIdWithExistingData = {
-  createdBy: '',
-};
-
 export const testTokenUserWithNotData =
   'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWJhZDM2MGQxZTEyZjRmZDMyYWNmODYiLCJuYW1lIjoiRXJpayBIZXJuYW5kZXoiLCJtZXRhIjp7InIiOlsiU1RVREVOVCIsIk1FTlRPUiIsIk1BTkFHRVIiXSwic2NpZCI6IjY1YmFjMTQyYjhlZjRkM2RlYTEwODYzNCJ9LCJpYXQiOjE3MDY3MDQxNDR9.njV_OqqALAa99GrR2CZxA6ZVLA_p5tGcgKYpTH4Mjkk';
 
