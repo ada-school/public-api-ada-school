@@ -16,6 +16,31 @@ import { TodoDBModel } from "./TodoDBModel";
 const router = express.Router();
 
 export const createTodo: AsyncHandler = async (req, res) => {
+  /* 
+  #swagger.summary = 'Create a new todo'
+  #swagger.description = 'Create a new todo with a title and optional description'
+  #swagger.tags = ['Todo']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/CreateTodo"
+        }
+      }
+    }
+  }
+  #swagger.responses[200] = {
+    description: "Created todo",
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/TodoResponse"
+        }
+      }           
+    }
+  }
+  */
   if (!req.jwt?.userId) {
     throw new HTTPError({
       status: 401,
@@ -49,6 +74,31 @@ export const createTodo: AsyncHandler = async (req, res) => {
 };
 
 export const updateTodo: AsyncHandler = async (req, res) => {
+  /* 
+  #swagger.summary = 'Update an existing todo by id'
+  #swagger.description = 'Update an existing todo by id'
+  #swagger.tags = ['Todo']
+  #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/UpdateTodo"
+        }  
+      }
+    }
+  } 
+  #swagger.responses[200] = {
+    description: "Updated todo",
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/TodoResponse"
+        }
+      }           
+    }
+  }
+  */
   if (!req.jwt?.userId) {
     throw new HTTPError({
       status: 401,
@@ -98,6 +148,22 @@ export const updateTodo: AsyncHandler = async (req, res) => {
 };
 
 export const getTodo: AsyncHandler = async (req, res) => {
+  /* 
+  #swagger.summary = 'Get a single todo by id'
+  #swagger.description = 'Get a single todo by id'
+  #swagger.tags = ['Todo']
+  #swagger.parameters['id'] = { description: 'Todo Id' }
+  #swagger.responses[200] = {
+    description: "Todo found with id",
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/TodoResponse"
+        }
+      }           
+    }
+  }
+  */
   if (!req.jwt?.userId) {
     throw new HTTPError({
       status: 401,
@@ -133,6 +199,25 @@ export const getTodo: AsyncHandler = async (req, res) => {
 };
 
 export const listTodos: AsyncHandler = async (req, res) => {
+  /* 
+  #swagger.auto = false
+  #swagger.summary = 'List all todos'
+  #swagger.description = 'List all todos sorted by createdAt, oldest first'
+  #swagger.tags = ['Todo']
+  #swagger.parameters['limit'] = { description: 'Limit the number of results' }
+  #swagger.parameters['offset'] = { description: 'Offset the results' }
+  #swagger.responses[200] = {
+    description: "All todos found sorted by createdAt, oldest first",
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/ArrayOfTodos"
+        }
+      }           
+    }
+  }
+  */
+
   if (!req.jwt?.userId) {
     throw new HTTPError({
       status: 401,
@@ -154,8 +239,11 @@ export const listTodos: AsyncHandler = async (req, res) => {
 
   const { limit, offset } = req.query;
 
-  const safeLimit = limit ? parseInt(limit as string) : 100;
-  const safeOffset = offset ? parseInt(offset as string) : 0;
+  const limitInt = limit ? parseInt(limit as string) : 50;
+  const offsetInt = offset ? parseInt(offset as string) : 0;
+
+  const safeLimit = Math.min(limitInt, 50);
+  const safeOffset = Math.max(offsetInt, 0);
 
   const todos = await TodoDBModel.find({ ownerId: req.jwt.userId })
     .limit(safeLimit)
@@ -166,6 +254,23 @@ export const listTodos: AsyncHandler = async (req, res) => {
 };
 
 const deleteTodo: AsyncHandler = async (req, res) => {
+  /* 
+  #swagger.summary = 'Delete a single todo by id'
+  #swagger.description = 'Delete a single todo by id'
+  #swagger.tags = ['Todo']
+  #swagger.parameters['id'] = { description: 'Todo Id' }
+  #swagger.responses[200] = {
+    description: "Deleted todo found with id",
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/TodoResponse"
+        }
+      }           
+    }
+  }
+  */
+
   if (!req.jwt?.userId) {
     throw new HTTPError({
       status: 401,

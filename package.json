@@ -30,6 +30,8 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node-fetch": "^2.6.11",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/throng": "^5.0.7",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
@@ -47,18 +49,24 @@
     "jest-silent-reporter": "^0.5.0",
     "lint-staged": "^15.2.1",
     "mongodb-memory-server": "^9.1.6",
+    "node-ts": "^6.0.1",
     "prettier": "^3.2.4",
     "supertest": "^6.3.4",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^10.2.0",
     "mongoose": "^8.1.1",
     "node-fetch": "2.7.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-express-ts": "^1.1.0",
+    "swagger-ui-express": "^5.0.0",
     "throng": "^5.0.0"
   }
 }

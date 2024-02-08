@@ -1,0 +1,361 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "v0.0.1",
+    "title": "Ada School Todos API",
+    "description": "A simple CRUD API application that allows you to manage todos."
+  },
+  "servers": [
+    {
+      "url": "https://public-api.learn.ada-school.org/api/v1/todos"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Create a new todo",
+        "description": "Create a new todo with a title and optional description",
+        "responses": {
+          "200": {
+            "description": "Created todo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTodo"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "List all todos",
+        "description": "List all todos sorted by createdAt, oldest first",
+        "parameters": [
+          {
+            "name": "limit",
+            "description": "Limit the number of results",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "description": "Offset the results",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All todos found sorted by createdAt, oldest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfTodos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "put": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Update an existing todo by id",
+        "description": "Update an existing todo by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated todo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodo"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Get a single todo by id",
+        "description": "Get a single todo by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Todo Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Todo found with id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Delete a single todo by id",
+        "description": "Delete a single todo by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Todo Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted todo found with id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Todo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Learn how to consume this API"
+          },
+          "description": {
+            "type": "string",
+            "example": "Check the documentation and use the API key to test the API"
+          },
+          "isCompleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "completedAt": {
+            "type": "string",
+            "example": "2022-08-25T00:00:00.000Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2020-08-25T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2021-08-25T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "isCompleted",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateTodo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "New Todo"
+          },
+          "description": {
+            "type": "string",
+            "example": "A new todo to be created"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "UpdateTodo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "UpdateTodo"
+          },
+          "description": {
+            "type": "string",
+            "example": "Update an existing todo by id"
+          },
+          "isComplete": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "TodoResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "123"
+              },
+              "title": {
+                "type": "string",
+                "example": "Todo title"
+              },
+              "description": {
+                "type": "string",
+                "example": "Todo description"
+              },
+              "isComplete": {
+                "type": "boolean",
+                "example": false
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2020-08-25T00:00:00.000Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2021-08-25T00:00:00.000Z"
+              },
+              "completedAt": {
+                "type": "string",
+                "example": "2023-08-25T00:00:00.000Z"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "description",
+              "isComplete",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        }
+      },
+      "ArrayOfTodos": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "456"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Another todo title"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Another todo description"
+                },
+                "isComplete": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2020-09-25T00:00:00.000Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2021-09-25T00:00:00.000Z"
+                },
+                "completedAt": {
+                  "type": "string",
+                  "example": "2023-09-25T00:00:00.000Z"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "description",
+                "isComplete",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
