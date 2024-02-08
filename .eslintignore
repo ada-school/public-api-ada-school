@@ -1,2 +1,7 @@
-.husky
 node_modules
+*.test.ts
+*.test.tsx
+build
+jest.config.js
+scripts/*
+babel.config.js

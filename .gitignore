@@ -1,4 +1,12 @@
-dist
 node_modules
+
+*.log
+
+.vscode/*
+!.vscode/launch.json
+
+build
+
 .env
-coverage
+
+.DS_Store

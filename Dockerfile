@@ -1,12 +1,23 @@
-FROM node:14-alpine
-LABEL Author Carmine DiMascio <cdimascio@gmail.com>
+FROM node:21-alpine AS builder
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY . /usr/src/app
-RUN npm install && npm run compile
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-EXPOSE 3000
+COPY . .
 
-CMD [ "npm", "start" ]
+RUN yarn build
+
+FROM node:21-alpine AS runner
+
+RUN apk update && \
+    apk upgrade
+RUN apk add openjdk21
+
+WORKDIR /app
+
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/node_modules ./node_modules
+
+CMD ["node", "build/server.js"]
