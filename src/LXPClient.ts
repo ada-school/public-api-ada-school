@@ -24,7 +24,7 @@ const isCheckTokenResponse = (data: unknown): data is CheckTokenResponse => {
 
 export const checkStudentAPIToken = async (apiKey: string) => {
   const postData = JSON.stringify({
-    query: "query { checkAPIKey(apiKey: $apiKey) }",
+    query: "query { checkApiKey(apiKey: $apiKey) }",
     variables: { apiKey },
   });
 
