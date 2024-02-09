@@ -1,10 +1,9 @@
 import express from "express";
 import { HTTPError } from "./HTTPError";
+import todoDocs from "./apis/todos/todos.swagger.json";
 import todosAPI from "./apis/todos/todosAPI";
 import { authorize } from "./middlewares/authorize";
 import { swaggerHandler } from "./swaggerHandler";
-import todoDocs from "./apis/todos/todos.swagger.json";
-import helmet from "helmet";
 
 const jsonErrorHandler = (
   err: Error,
@@ -28,8 +27,6 @@ const jsonErrorHandler = (
 
 export const createApp = () => {
   const app = express();
-
-  app.use(helmet());
 
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());

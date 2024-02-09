@@ -6,9 +6,11 @@
  */
 
 import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 import sslRedirect from "heroku-ssl-redirect";
 import mongoose from "mongoose";
 import throng from "throng";
+import cors from "cors";
 import { createApp } from "./app";
 import { config } from "./config";
 
@@ -64,7 +66,9 @@ const startServer = () => {
     app.use(sslRedirect());
   }
 
+  app.use(helmet());
   app.use(limiter);
+  app.use(cors({ origin: "*" }));
 
   app.listen(config.PORT, () => {
     // eslint-disable-next-line no-console
