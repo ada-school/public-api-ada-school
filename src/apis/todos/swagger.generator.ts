@@ -3,7 +3,7 @@ import swaggerAutogen from "swagger-autogen";
 const doc = {
   info: {
     version: "v0.0.1",
-    title: "Ada School Todos API",
+    title: "Ada School - Todos API",
     description:
       "A simple CRUD API application that allows you to manage todos.",
   },
