@@ -9,7 +9,7 @@ export const config = {
   ADA_PUBLIC_API_KEY: process.env.ADA_PUBLIC_API_KEY || "",
   NODE_ENV: process.env.NODE_ENV || "development",
   PORT: process.env.PORT || 7000,
-  ADA_LXP_URL: process.env.ADA_LXP_URL || "https://api-learn.ada-school.org",
+  ADA_LXP_URL: process.env.ADA_LXP_URL || "https://localhost:4000/graphql",
   MONGO_DB_URI:
     process.env.MONGO_DB_URI ||
     "mongodb://localhost:27017/public-api-ada-school",
