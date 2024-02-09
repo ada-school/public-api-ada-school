@@ -14,7 +14,7 @@
     "compile": "tsc --noEmit",
     "lint": "eslint -c .eslintrc.json --ext .ts,.tsx ./src",
     "prepare": "husky install",
-    "precommit": "concurrently --names \"lint,compile,docs\" \"yarn lint\" \"yarn compile\" \"yarn gen:docs\"",
+    "precommit": "concurrently --names \"lint,compile,docs\" \"yarn lint\" \"yarn compile\" \"yarn docs\"",
     "prepush": "lint-staged",
     "docs": "ts-node ./src/genDocs.ts"
   },
