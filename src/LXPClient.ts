@@ -40,9 +40,6 @@ export const checkStudentAPIToken = async (apiKey: string) => {
   try {
     const data = await response.json();
 
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(data, null, 2));
-
     if (!isCheckTokenResponse(data)) {
       return false;
     }
