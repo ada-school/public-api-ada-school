@@ -9,6 +9,7 @@ import { authorize } from "./middlewares/authorize";
 import { swaggerHandler } from "./swaggerHandler";
 
 const rateLimitWindowMs = 60 * 1000;
+const numberOfProxies = 3;
 
 const limiter = rateLimit({
   windowMs: rateLimitWindowMs,
@@ -47,6 +48,8 @@ const jsonErrorHandler = (
 
 export const createApp = () => {
   const app = express();
+
+  app.set("trust proxy", numberOfProxies);
 
   app.use(helmet());
   app.use(limiter);
