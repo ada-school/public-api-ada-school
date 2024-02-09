@@ -11,14 +11,14 @@ import { config } from "./config";
 
 interface CheckTokenResponse {
   data: {
-    checkToken: boolean;
+    checkApiKey: boolean;
   };
 }
 
 const isCheckTokenResponse = (data: unknown): data is CheckTokenResponse => {
   return (
     (data as CheckTokenResponse).data !== undefined &&
-    (data as CheckTokenResponse).data.checkToken !== undefined
+    (data as CheckTokenResponse).data.checkApiKey !== undefined
   );
 };
 
@@ -47,7 +47,7 @@ export const checkStudentAPIToken = async (apiKey: string) => {
       return false;
     }
 
-    return data.data.checkToken;
+    return data.data.checkApiKey;
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error("Error checking token:", e);
