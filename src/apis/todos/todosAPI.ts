@@ -268,11 +268,11 @@ export const listTodos: AsyncHandler = async (req, res) => {
 
   const { limit, offset } = req.query;
 
-  const limitInt = limit ? parseInt(limit as string) : 50;
+  const limitInt = limit ? parseInt(limit as string) : 100;
   const offsetInt = offset ? parseInt(offset as string) : 0;
 
-  const safeLimit = Math.min(limitInt, 50);
-  const safeOffset = Math.max(offsetInt, 0);
+  const safeLimit = Math.min(isNaN(limitInt) ? 100 : limitInt, 100);
+  const safeOffset = Math.min(isNaN(offsetInt) ? 0 : offsetInt, 2000);
 
   const todos = await TodoDBModel.find({ ownerId: req.jwt.userId })
     .limit(safeLimit)
