@@ -24,8 +24,7 @@ const isCheckTokenResponse = (data: unknown): data is CheckTokenResponse => {
 
 export const checkStudentAPIToken = async (apiKey: string) => {
   const postData = JSON.stringify({
-    query: "query { checkApiKey(apiKey: $apiKey) }",
-    variables: { apiKey },
+    query: `query { checkApiKey(apiKey: "${apiKey}") }`,
   });
 
   const response = await fetch(config.ADA_LXP_URL, {
