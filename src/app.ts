@@ -1,9 +1,29 @@
+import cors from "cors";
 import express from "express";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 import { HTTPError } from "./HTTPError";
 import todoDocs from "./apis/todos/todos.swagger.json";
 import todosAPI from "./apis/todos/todosAPI";
 import { authorize } from "./middlewares/authorize";
 import { swaggerHandler } from "./swaggerHandler";
+
+const rateLimitWindowMs = 60 * 1000;
+
+const limiter = rateLimit({
+  windowMs: rateLimitWindowMs,
+  max: 500,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (_req, res) => {
+    // eslint-disable-next-line no-console
+    console.error("API rate limit exceeded");
+    res.status(429).send({
+      error: "Too many requests, please try again later.",
+      data: null,
+    });
+  },
+});
 
 const jsonErrorHandler = (
   err: Error,
@@ -27,6 +47,10 @@ const jsonErrorHandler = (
 
 export const createApp = () => {
   const app = express();
+
+  app.use(helmet());
+  app.use(limiter);
+  app.use(cors({ origin: "*" }));
 
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
