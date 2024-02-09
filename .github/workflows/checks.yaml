@@ -1,0 +1,55 @@
+name: Checks
+
+on:
+  push:
+    branches:
+      - main
+      - release
+
+  pull_request:
+    branches:
+      - main
+      - release
+
+  workflow_dispatch:
+
+jobs:
+  Checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "starting checks 👀 triggered by a ${{ github.event_name }} in ${{ github.ref }}."
+
+      - name: Clonning repo 🐑
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - name: Cache Node.js modules 💾
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - name: Install dependencies 📦
+        run: yarn install --frozen-lockfile
+
+      - name: Build 🏗️
+        run: yarn build
+
+      - name: Compile 🗜
+        run: yarn compile
+
+      - name: Lint 🧹
+        run: yarn lint
+
+      - name: Run Unit tests 🧪
+        run: yarn test
+
+      - run: echo "Checks completed, status is ${{ job.status }}. ✅"
