@@ -22,10 +22,10 @@ const isCheckTokenResponse = (data: unknown): data is CheckTokenResponse => {
   );
 };
 
-export const checkStudentAPIToken = async (token: string) => {
+export const checkStudentAPIToken = async (apiKey: string) => {
   const postData = JSON.stringify({
-    query: "mutation { checkStudentAPIToken(token: $token) }",
-    variables: { token },
+    query: "query { checkAPIKey(apiKey: $apiKey) }",
+    variables: { apiKey },
   });
 
   const response = await fetch(config.ADA_LXP_URL, {
