@@ -6,4 +6,4 @@ This repository contains the public APIs for Ada School. These APIs are testing 
 
 ## APIs
 
-- Todos: [https://public-api.ada-school.org/docs/v1/todos](https://public-api.ada-school.org/docs/v1/todos)
+- Todos: [https://public-api.learn.ada-school.org/docs/v1/todos](https://public-api.learn.ada-school.org/docs/v1/todos)
