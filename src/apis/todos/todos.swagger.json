@@ -13,9 +13,7 @@
   "paths": {
     "/": {
       "post": {
-        "tags": [
-          "Todo"
-        ],
+        "tags": ["Todo"],
         "summary": "Create a new todo",
         "description": "Create a new todo with a title and optional description",
         "responses": {
@@ -48,9 +46,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Todo"
-        ],
+        "tags": ["Todo"],
         "summary": "List all todos",
         "description": "List all todos sorted by createdAt, oldest first",
         "parameters": [
@@ -87,9 +83,7 @@
     },
     "/{id}": {
       "put": {
-        "tags": [
-          "Todo"
-        ],
+        "tags": ["Todo"],
         "summary": "Update an existing todo by id",
         "description": "Update an existing todo by id",
         "parameters": [
@@ -132,9 +126,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Todo"
-        ],
+        "tags": ["Todo"],
         "summary": "Get a single todo by id",
         "description": "Get a single todo by id",
         "parameters": [
@@ -168,9 +160,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Todo"
-        ],
+        "tags": ["Todo"],
         "summary": "Delete a single todo by id",
         "description": "Delete a single todo by id",
         "parameters": [
@@ -255,9 +245,7 @@
             "example": "A new todo to be created"
           }
         },
-        "required": [
-          "title"
-        ]
+        "required": ["title"]
       },
       "UpdateTodo": {
         "type": "object",
@@ -378,5 +366,10 @@
         "scheme": "bearer"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

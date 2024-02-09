@@ -8,6 +8,7 @@ const doc = {
       "A simple CRUD API application that allows you to manage todos.",
   },
   servers: [{ url: "https://public-api.learn.ada-school.org/api/v1/todos" }],
+  security: [{ bearerAuth: [] }],
   components: {
     schemas: {
       Todo: {

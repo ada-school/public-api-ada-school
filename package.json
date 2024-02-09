@@ -15,7 +15,7 @@
     "compile": "tsc --noEmit",
     "lint": "eslint -c .eslintrc.json --ext .ts,.tsx ./src",
     "prepare": "husky install",
-    "precommit": "concurrently --names \"lint-staged,docs\" \"lint-staged\" \"yarn docs\"",
+    "precommit": "concurrently --names \"lint-staged,docs\" \"lint-staged --allow-empty\" \"yarn docs\"",
     "prepush": "concurrently --names \"lint,compile,build,tests\" \"yarn lint\" \"yarn compile\" \"yarn build\" \"yarn test\"",
     "docs": "ts-node ./src/genDocs.ts"
   },
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.5",
