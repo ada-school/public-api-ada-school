@@ -5,12 +5,30 @@
  * Proprietary and confidential
  */
 
+import rateLimit from "express-rate-limit";
+import sslRedirect from "heroku-ssl-redirect";
 import mongoose from "mongoose";
 import throng from "throng";
 import { createApp } from "./app";
 import { config } from "./config";
 
 const isDev = config.NODE_ENV === "development";
+const rateLimitWindowMs = 60 * 1000;
+
+const limiter = rateLimit({
+  windowMs: rateLimitWindowMs,
+  max: 500,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (_req, res) => {
+    // eslint-disable-next-line no-console
+    console.error("API rate limit exceeded");
+    res.status(429).send({
+      error: "Too many requests, please try again later.",
+      data: null,
+    });
+  },
+});
 
 const connectMongo = () => {
   mongoose
@@ -41,6 +59,12 @@ const displayStartServerError = (error: any) => {
 
 const startServer = () => {
   const app = createApp();
+
+  if (!isDev) {
+    app.use(sslRedirect());
+  }
+
+  app.use(limiter);
 
   app.listen(config.PORT, () => {
     // eslint-disable-next-line no-console

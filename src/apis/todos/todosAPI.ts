@@ -15,6 +15,8 @@ import { TodoDBModel } from "./TodoDBModel";
 
 const router = express.Router();
 
+const MAX_TODOS_PER_USER = 1000;
+
 export const createTodo: AsyncHandler = async (req, res) => {
   /* 
   #swagger.summary = 'Create a new todo'
@@ -56,6 +58,18 @@ export const createTodo: AsyncHandler = async (req, res) => {
       status: 400,
       message: "Invalid request",
       errors: result.array(),
+      module: "TodosAPI.createTodo",
+    });
+  }
+
+  const userTodoCount = await TodoDBModel.countDocuments({
+    ownerId: req.jwt.userId,
+  });
+
+  if (userTodoCount >= MAX_TODOS_PER_USER) {
+    throw new HTTPError({
+      status: 400,
+      message: "Maximum todos per user reached",
       module: "TodosAPI.createTodo",
     });
   }

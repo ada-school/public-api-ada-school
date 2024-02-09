@@ -62,10 +62,14 @@ const doc = {
   },
 };
 
-const outputFile = "./todos.swagger.json";
-const endpointsFiles = ["./todosAPI.ts"];
+const outputFile = "./src/apis/todos/todos.swagger.json";
+const endpointsFiles = ["./src/apis/todos/todosAPI.ts"];
 
-swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc).catch(
-  // eslint-disable-next-line no-console
-  (err) => console.error(err)
-);
+function docGen() {
+  swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc).catch(
+    // eslint-disable-next-line no-console
+    (err) => console.error(err)
+  );
+}
+
+export default docGen;
