@@ -31,6 +31,9 @@
           },
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Invalid or missing request data"
           }
         },
         "requestBody": {
@@ -109,6 +112,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid or missing request data"
+          },
+          "404": {
+            "description": "Todo not found"
           }
         },
         "requestBody": {
@@ -149,6 +158,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid or missing request data"
+          },
+          "404": {
+            "description": "Todo not found"
           }
         }
       },
@@ -179,6 +194,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid or missing request data"
+          },
+          "404": {
+            "description": "Todo not found"
           }
         }
       }

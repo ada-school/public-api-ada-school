@@ -42,6 +42,9 @@ export const createTodo: AsyncHandler = async (req, res) => {
       }           
     }
   }
+  #swagger.responses[400] = {
+    description: "Invalid or missing request data",
+  }
   */
   if (!req.jwt?.userId) {
     throw new HTTPError({
@@ -112,6 +115,12 @@ export const updateTodo: AsyncHandler = async (req, res) => {
       }           
     }
   }
+  #swagger.responses[400] = {
+    description: "Invalid or missing request data",
+  }
+  #swagger.responses[404] = {
+    description: "Todo not found",
+  }
   */
   if (!req.jwt?.userId) {
     throw new HTTPError({
@@ -176,6 +185,12 @@ export const getTodo: AsyncHandler = async (req, res) => {
         }
       }           
     }
+  }
+  #swagger.responses[400] = {
+    description: "Invalid or missing request data",
+  }
+  #swagger.responses[404] = {
+    description: "Todo not found",
   }
   */
   if (!req.jwt?.userId) {
@@ -282,6 +297,12 @@ const deleteTodo: AsyncHandler = async (req, res) => {
         }
       }           
     }
+  }
+  #swagger.responses[400] = {
+    description: "Invalid or missing request data",
+  }
+  #swagger.responses[404] = {
+    description: "Todo not found",
   }
   */
 
