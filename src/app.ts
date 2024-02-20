@@ -5,8 +5,10 @@ import helmet from "helmet";
 import { HTTPError } from "./HTTPError";
 import todoDocs from "./apis/todos/todos.swagger.json";
 import todosAPI from "./apis/todos/todosAPI";
+import cronjob from "./cronjob";
 import { authorize } from "./middlewares/authorize";
 import { swaggerHandler } from "./swaggerHandler";
+import { authorizeAPIKey } from "./middlewares/authorizeApiKey";
 
 const rateLimitWindowMs = 60 * 1000;
 const numberOfProxies = 3;
@@ -59,6 +61,7 @@ export const createApp = () => {
   app.use(express.json());
 
   app.use("/api/v1/todos", authorize, todosAPI);
+  app.use("/system/cronjob", authorizeAPIKey, cronjob);
   app.use("/docs/v1/todos", swaggerHandler(todoDocs));
 
   app.use("*", () => {

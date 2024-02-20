@@ -15,4 +15,5 @@ export const config = {
     "mongodb://localhost:27017/public-api-ada-school",
   WORKERS: process.env.WEB_CONCURRENCY || 1,
   JWT_SECRET: process.env.JWT_SECRET || "test-secret",
+  CRON_JOB_API_KEY: process.env.CRON_JOB_API_KEY || "cron-job-secret",
 };
