@@ -12,6 +12,7 @@ import { AsyncHandler } from "../AsyncHandler";
 import { HTTPError } from "../HTTPError";
 import { checkStudentAPIToken } from "../LXPClient";
 import { config } from "../config";
+import { compactDecrypt, KeyLike, importPKCS8 } from "jose";
 
 const isDev = config.NODE_ENV === "development";
 
@@ -42,6 +43,35 @@ const tokenCache = new LRUCache<string, AdaJWTData>({
   max: 9000,
   ttl: 1000 * 60 * 60 * 5,
 });
+
+let privateKey: KeyLike;
+
+importPKCS8(config.JWE_PRIVATE_KEY, "RS256")
+  .then((key) => {
+    privateKey = key;
+  })
+  .catch((error) => {
+    throw new HTTPError({
+      code: 500,
+      errors: error,
+      message: "authorize: failed importPKCS8",
+    });
+  });
+
+export const decryptJwe = async (jwe: string): Promise<string> => {
+  try {
+    const { plaintext } = await compactDecrypt(jwe, privateKey);
+    const jwt = JSON.parse(new TextDecoder().decode(plaintext));
+
+    return jwt;
+  } catch (error) {
+    throw new HTTPError({
+      code: 500,
+      errors: error,
+      message: "authorize: failed decryptJWE",
+    });
+  }
+};
 
 const parseJWT = async (token: string) => {
   return new Promise<AdaJWTData>((resolve, reject) => {
@@ -87,23 +117,25 @@ const authorizeHandler: AsyncHandler = async (req, _res, next) => {
     throw new HTTPError({ status: 401, message: "Unauthorized" });
   }
 
+  const jwt = await decryptJwe(studentApiKey);
+
   // Check if the token is in the token cache
-  if (tokenCache.has(studentApiKey)) {
-    req.jwt = tokenCache.get(studentApiKey);
+  if (tokenCache.has(jwt)) {
+    req.jwt = tokenCache.get(jwt);
 
     return next();
   }
 
   // If not running in development, check the token with the LXP API
   if (!isDev) {
-    const isTokenValid = await checkStudentAPIToken(studentApiKey);
+    const isTokenValid = await checkStudentAPIToken(jwt);
 
     if (!isTokenValid) {
       throw new HTTPError({ status: 401, message: "Unauthorized" });
     }
   }
 
-  const jwtData = await parseJWT(studentApiKey);
+  const jwtData = await parseJWT(jwt);
 
   req.jwt = jwtData;
 
