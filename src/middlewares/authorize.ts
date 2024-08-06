@@ -51,9 +51,11 @@ importPKCS8(config.JWE_PRIVATE_KEY, "RS256")
     privateKey = key;
   })
   .catch((error) => {
-    /* eslint-disable no-console */
-    console.error("authorize: Failed importPKCS8", error);
-    throw error;
+    throw new HTTPError({
+      code: 500,
+      errors: error,
+      message: "authorize: failed importPKCS8",
+    });
   });
 
 export const decryptJwe = async (jwe: string): Promise<string> => {
@@ -62,8 +64,12 @@ export const decryptJwe = async (jwe: string): Promise<string> => {
     const jwt = JSON.parse(new TextDecoder().decode(plaintext));
 
     return jwt;
-  } catch (error: any) {
-    throw new Error("authorize: Failed to decrypt ", { cause: error });
+  } catch (error) {
+    throw new HTTPError({
+      code: 500,
+      errors: error,
+      message: "authorize: failed decryptJWE",
+    });
   }
 };
 
