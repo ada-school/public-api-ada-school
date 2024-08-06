@@ -27,7 +27,7 @@ describe("todosAPI", () => {
   let testToken: string;
   beforeAll(async () => {
     await memoryDatabase.connect();
-    testToken = createToken({ userId: testUserId });
+    testToken = await createToken({ userId: testUserId });
   });
 
   afterAll(async () => {
