@@ -79,11 +79,13 @@ const parseJWT = async (token: string) => {
       if (err) {
         if (err.name === "TokenExpiredError") {
           return reject(
-            new HTTPError({ status: 401, message: "Token Expired" })
+            new HTTPError({ status: 401, message: "Token Expired", code: 4 })
           );
         }
 
-        return reject(new HTTPError({ status: 401, message: "Unauthorized" }));
+        return reject(
+          new HTTPError({ status: 401, message: "Unauthorized", code: 5 })
+        );
       }
 
       if (isAdaJWT(decoded)) {
@@ -101,6 +103,7 @@ const parseJWT = async (token: string) => {
           new HTTPError({
             status: 401,
             message: "Unauthorized",
+            code: 3,
           })
         );
       }
@@ -114,7 +117,7 @@ const authorizeHandler: AsyncHandler = async (req, _res, next) => {
     : "";
 
   if (!studentApiKey) {
-    throw new HTTPError({ status: 401, message: "Unauthorized" });
+    throw new HTTPError({ status: 401, message: "Unauthorized", code: 1 });
   }
 
   const jwt = await decryptJwe(studentApiKey);
@@ -131,7 +134,7 @@ const authorizeHandler: AsyncHandler = async (req, _res, next) => {
     const isTokenValid = await checkStudentAPIToken(jwt);
 
     if (!isTokenValid) {
-      throw new HTTPError({ status: 401, message: "Unauthorized" });
+      throw new HTTPError({ status: 401, message: "Unauthorized", code: 2 });
     }
   }
 
