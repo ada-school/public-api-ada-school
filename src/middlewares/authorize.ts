@@ -131,7 +131,7 @@ const authorizeHandler: AsyncHandler = async (req, _res, next) => {
 
   // If not running in development, check the token with the LXP API
   if (!isDev) {
-    const isTokenValid = await checkStudentAPIToken(jwt);
+    const isTokenValid = await checkStudentAPIToken(studentApiKey);
 
     if (!isTokenValid) {
       throw new HTTPError({ status: 401, message: "Unauthorized", code: 2 });
